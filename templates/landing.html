@@ -20,7 +20,7 @@
         </p>
         <div class="hero-actions">
             <a href="{{ url_for('register') }}" class="btn-primary">Create free account</a>
-            <a href="{{ url_for('register') }}" class="btn-ghost">See how it works</a>
+            <button type="button" class="btn-ghost" id="video-btn">See how it works</button>
         </div>
     </div>
     <div class="hero-visual">
@@ -101,4 +101,54 @@
     </div>
 </section>
 
+<!-- Video Modal -->
+<div id="video-modal" class="video-modal">
+    <div class="video-modal-overlay"></div>
+    <div class="video-modal-content">
+        <button type="button" class="video-modal-close" aria-label="Close modal">&times;</button>
+        <div class="video-modal-wrapper">
+            <iframe
+                id="video-iframe"
+                src=""
+                title="Spendly Demo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const videoBtn = document.getElementById('video-btn');
+    const videoModal = document.getElementById('video-modal');
+    const videoIframe = document.getElementById('video-iframe');
+    const modalClose = document.querySelector('.video-modal-close');
+    const modalOverlay = document.querySelector('.video-modal-overlay');
+
+    const VIDEO_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+
+    function openModal() {
+        videoIframe.src = VIDEO_URL;
+        videoModal.classList.add('active');
+    }
+
+    function closeModal() {
+        videoModal.classList.remove('active');
+        videoIframe.src = '';
+    }
+
+    videoBtn.addEventListener('click', openModal);
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+</script>
 {% endblock %}
